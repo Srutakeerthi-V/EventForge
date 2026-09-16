@@ -1,0 +1,12 @@
+const express = require('express');
+const { protect, authorize } = require('../middleware/auth');
+const controller = require('../controllers/sponsorController');
+const router = express.Router();
+router.get('/', protect, authorize('EVENT_ORGANIZER', 'SPONSOR', 'PLATFORM_ADMIN'), controller.listSponsors);
+router.post('/', protect, authorize('EVENT_ORGANIZER', 'SPONSOR', 'PLATFORM_ADMIN'), controller.createSponsor);
+router.get('/packages', protect, authorize('EVENT_ORGANIZER', 'SPONSOR', 'PLATFORM_ADMIN'), controller.listPackages);
+router.post('/packages', protect, authorize('EVENT_ORGANIZER', 'PLATFORM_ADMIN'), controller.createPackage);
+router.get('/deliverables', protect, authorize('EVENT_ORGANIZER', 'SPONSOR', 'PLATFORM_ADMIN'), controller.listDeliverables);
+router.post('/deliverables', protect, authorize('EVENT_ORGANIZER', 'PLATFORM_ADMIN'), controller.createDeliverable);
+router.patch('/deliverables/:id', protect, authorize('EVENT_ORGANIZER', 'SPONSOR', 'PLATFORM_ADMIN'), controller.updateDeliverable);
+module.exports = router;
